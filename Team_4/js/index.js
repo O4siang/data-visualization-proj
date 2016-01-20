@@ -108,12 +108,7 @@ d3.csv("data/US-states.csv", function(data) {
 });
 
 
-//Craete the radar chart
-var radarChart = RadarChart.chart();
-//default config
-var defaultConfig = radarChart.config(); 
-//defaultConfig.w and defaultConfig.h is 600
-radarChart.config({w: 300, h: 300, levels: 4, maxValue: 100});
+
 //TeamData for Rader chart
 var teamRadarData = [];
 //List of teams
@@ -336,8 +331,12 @@ function createTimeLine() {
 };
 
 var thisYearDraft = {};
+
+
 //讀取當年度新秀資料
 function readDraft(year) {
+    $("#chartContainer").html("");
+    var svg = dimple.newSvg("#chartContainer", 1200, 600);
     thisYearDraft = {};
     var nodes = g.selectAll("circle").remove();
     nodes = g.selectAll("text").remove();
@@ -356,8 +355,11 @@ function readDraft(year) {
         Scale.domain([0, 70]);
 
         d3.csv("data/draft_NBA_1996-2015.csv", function(draftData) {
+            var chartInfo = [];
+
             for (var i = 0; i < draftData.length; i++) { //every draft
                 if(draftData[i].Year == year){
+
                     if(thisYearDraft[draftData[i].Tm] == null)
                         thisYearDraft[draftData[i].Tm] = [];
                     thisYearDraft.year = year;
@@ -365,14 +367,18 @@ function readDraft(year) {
                     for(var j = 0; j < teamData.length; j++){
                         if(draftData[i].Tm == teamData[j].abb){
                             var playerInfo = {};
+                            playerInfo["Year"] = draftData[i].Year;
                             playerInfo["Name"] = draftData[i].Player;
                             playerInfo["PTS"] = draftData[i].PTS;
                             playerInfo["Pk"] = draftData[i].Pk;
                             playerInfo["TRB"] = draftData[i].TRB;
                             playerInfo["AST"] = draftData[i].AST;
                             playerInfo["pic"] = draftData[i].PICTURE;
+                            playerInfo["SALARY"] = draftData[i].SALARY;
 
                             console.log(draftData[i]);
+
+                            chartInfo.push(playerInfo);
                             thisYearDraft[draftData[i].Tm].push(playerInfo);    
                         }
                     }
@@ -472,7 +478,46 @@ function readDraft(year) {
             var FontSize = d3.scale.linear()
                 .domain([15, 1])
                 .range([10, 20]);
+
+            console.log(chartInfo);
+
+            // Create the chart as usual
+            var myChart = new dimple.chart(svg, chartInfo);
+            myChart.setBounds(70, 40, 900, 320);
             
+            // Add the x axis reading dates in the format 01 Jan 2012
+            // and displaying them 01 Jan
+            var x = myChart.addCategoryAxis("x", "Name");
+            x.addOrderRule(["Pk"]);
+
+            // Add the y axis reading dates and times but only outputting
+            // times.  
+            var y = myChart.addMeasureAxis("y", ["SALARY"]);
+
+            // Size the bubbles by volume
+            var z = myChart.addMeasureAxis("z", ["PTS"]);
+            
+            var b = myChart.addSeries(["Name"], dimple.plot.bar);
+            b.barGap = 0.1;
+
+
+            // Control bubble sizes by setting the max and min values    
+            z.overrideMin = 0;
+            z.overrideMax = 40;
+
+            // Add the bubble series for shift values first so that it is
+            // drawn behind the lines
+            myChart.addSeries(["Year"], dimple.plot.bubble);
+
+            // Add the line series on top of the bubbles.  The bubbles
+            // and line points will naturally fall in the same places
+            var s = myChart.addSeries(["Year"], dimple.plot.line);
+
+            // Add line markers to the line because it looks nice
+            s.lineMarkers = true;
+
+            // Draw everything
+            myChart.draw();
         });
     });
 }
