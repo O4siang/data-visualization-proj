@@ -483,12 +483,13 @@ function readDraft(year) {
 
             // Create the chart as usual
             var myChart = new dimple.chart(svg, chartInfo);
-            myChart.setBounds(70, 40, 900, 320);
+            myChart.setBounds(130, 40, 1000, 330);
             
             // Add the x axis reading dates in the format 01 Jan 2012
             // and displaying them 01 Jan
-            var x = myChart.addCategoryAxis("x", "Name");
-            x.addOrderRule(["Pk"]);
+            var x = myChart.addCategoryAxis("x", ["Name"]);
+            x.addOrderRule("Pk", false);
+
 
             // Add the y axis reading dates and times but only outputting
             // times.  
@@ -498,7 +499,7 @@ function readDraft(year) {
             var z = myChart.addMeasureAxis("z", ["PTS"]);
             
             var b = myChart.addSeries(["Name"], dimple.plot.bar);
-            b.barGap = 0.1;
+            b.barGap = 0.2;
 
 
             // Control bubble sizes by setting the max and min values    
