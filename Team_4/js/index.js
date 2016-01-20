@@ -1,8 +1,8 @@
 
 
 //Width and height for whole
-var w = 1200;
-var h = 500;
+var w = 900;
+var h = 600;
 
 //image width and height
 var image_w = 150;
@@ -227,16 +227,6 @@ function stateClick(d) {
     }
 
     active = d3.select(this).style("fill", "orange");
-
-    //Hide the radar chart, stack bar chart, pie chart
-    d3.selectAll(".bar-form")
-        .style("display", "none");  
-    svg.selectAll(".teamRadar")
-        .style("display", "none");
-    svg.selectAll(".stack-bar")
-        .style("display", "none");
-    svg.selectAll(".pie-chart")
-        .style("display", "none");
 
     //Modify the size 
     var bounds = path.bounds(d),
