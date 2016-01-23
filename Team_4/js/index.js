@@ -188,6 +188,7 @@ function teamClick(d) {
             document.getElementById("TRB").innerHTML = thisYearDraft[d.abb][0]["TRB"];
             document.getElementById("AST").innerHTML = thisYearDraft[d.abb][0]["AST"];
             document.getElementById("pic").src = thisYearDraft[d.abb][0]["pic"];
+            document.getElementById("video").src = thisYearDraft[d.abb][0]["video"];
         //}
         
     }
@@ -375,6 +376,7 @@ function readDraft(year) {
                             playerInfo["AST"] = draftData[i].AST;
                             playerInfo["pic"] = draftData[i].PICTURE;
                             playerInfo["SALARY"] = draftData[i].SALARY;
+                            playerInfo["video"] = draftData[i].VIDEO;
 
                             console.log(draftData[i]);
 
@@ -434,6 +436,7 @@ function readDraft(year) {
             nodes.on("mouseover", function(d){
                 console.log(thisYearDraft.year);
                 console.log(thisYearDraft[d.abb][0]["pic"]);
+                console.log(thisYearDraft[d.abb][0]["video"]);
 
                 g.selectAll("circle").style("opacity", function(d){
                     if(typeof thisYearDraft[d.abb] != "undefined"){
