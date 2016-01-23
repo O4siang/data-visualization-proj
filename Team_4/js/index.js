@@ -188,7 +188,7 @@ function teamClick(d) {
             document.getElementById("TRB").innerHTML = thisYearDraft[d.abb][0]["TRB"];
             document.getElementById("AST").innerHTML = thisYearDraft[d.abb][0]["AST"];
             document.getElementById("pic").src = thisYearDraft[d.abb][0]["pic"];
-            document.getElementById("video").src = thisYearDraft[d.abb][0]["video"];
+            document.getElementById("highlight").src = thisYearDraft[d.abb][0]["VIDEO"];
         //}
         
     }
@@ -376,7 +376,7 @@ function readDraft(year) {
                             playerInfo["AST"] = draftData[i].AST;
                             playerInfo["pic"] = draftData[i].PICTURE;
                             playerInfo["SALARY"] = draftData[i].SALARY;
-                            playerInfo["video"] = draftData[i].VIDEO;
+                            playerInfo["VIDEO"] = draftData[i].VIDEO;
 
                             console.log(draftData[i]);
 
@@ -482,7 +482,12 @@ function readDraft(year) {
                 .domain([15, 1])
                 .range([10, 20]);
 
+
+            
+
             console.log(chartInfo);
+
+            
 
             // Create the chart as usual
             var myChart = new dimple.chart(svg, chartInfo);
