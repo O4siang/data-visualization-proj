@@ -443,7 +443,7 @@ function readDraft(year) {
 
                 d3.select(this).select("text")
                     .transition()
-                    .duration(200)
+                    .duration(500)
                     .attr("dx", "30")
                     .style("fill", "#000000")
                     .style("font-size", "30px")
@@ -453,7 +453,7 @@ function readDraft(year) {
 
                 d3.select(this).select("circle")
                     .transition()
-                    .duration(200)
+                    .duration(500)
                     .attr("r", function(d) { 
                          return Scale(thisYearDraft[d.abb][0]["PTS"]*5); 
                     })
@@ -503,8 +503,8 @@ function readDraft(year) {
 
 
             // Control bubble sizes by setting the max and min values    
-            z.overrideMin = 0;
-            z.overrideMax = 40;
+            z.overrideMin = -5;
+            z.overrideMax = 50;
 
             // Add the bubble series for shift values first so that it is
             // drawn behind the lines
